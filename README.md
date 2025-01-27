@@ -19,3 +19,36 @@ The dataset of the project is sourced from Kaggle dataset.
 
 ## Schema 
 
+```SQL
+create table Netflix(
+show_id	  			varchar(10),
+typ 	 			varchar(10),
+title	 			varchar(150), 
+director			varchar(210),
+casts				varchar(1000),
+country  			varchar(150), 
+date_added  		varchar(50),
+release_year 		 int,
+rating    			 varchar(50),
+duration  			 varchar(50),
+listed_in 			 varchar(100),
+descriptions	 	 varchar(300)
+);
+```
+
+## Business Problems and Solutions 
+
+### 1.Count the number of Movies vs TV Shows.
+```SQL
+SELECT  
+Typ, 
+count(*) as Total_TV_Shows 
+FROM netflix 
+GROUP by typ;
+```
+
+
+
+
+
+
