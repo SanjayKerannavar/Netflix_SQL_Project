@@ -47,6 +47,54 @@ FROM netflix
 GROUP by typ;
 ```
 
+### 2. Find the Most Common Rating for Movies and TV Shows.
+```SQL
+WITH RatingCounts AS (
+    SELECT 
+        typ,
+        rating,
+        COUNT(*) AS rating_count
+    FROM netflix
+    GROUP BY typ, rating
+),
+RankedRatings AS (
+    SELECT 
+        typ,
+        rating,
+        rating_count,
+        RANK() OVER (PARTITION BY typ ORDER BY rating_count DESC) AS rank
+    FROM RatingCounts
+)
+SELECT 
+    typ,
+    rating AS rating
+FROM RankedRatings
+WHERE rank = 1;
+```
+
+### 3 List All Movies Released in a Specific Year (e.g., 2020)
+```SQL
+SELECT * FROM netflix
+where release_year = 2020 
+and
+typ = 'Movie' ;
+```
+
+### 4. Find the Top 5 Countries with the Most Content on Netflix
+```SQL
+SELECT * 
+FROM
+(
+    SELECT 
+        UNNEST(STRING_TO_ARRAY(country, ',')) AS country,
+        COUNT(*) AS total_content
+    FROM netflix
+    GROUP BY 1
+) AS t1
+WHERE country IS NOT NULL
+ORDER BY total_content DESC
+LIMIT 5;
+```
 
 
 
