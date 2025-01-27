@@ -1,5 +1,5 @@
 # Netflix_Movies_Shows_Data_Analysis.
-![Netflix_Logo](https://github.com/SanjayKerannavar/Netflix_SQL_Project/blob/de51c32570a8cf76c7fed1a231c21f3741d16ba2/Net1.png)
+![Netflix_Logo](https://github.com/SanjayKerannavar/Netflix_SQL_Project/blob/a4674672fbd97aa3cce7a7d03a0f7161051c46ad/Image.png)
 
 ## Overview 
 This project involves a comprehensive analysis of Netflix Movies and TV shows data using SQL. The goal is to extract valuable insights and 
