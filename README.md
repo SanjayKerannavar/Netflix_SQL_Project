@@ -96,6 +96,131 @@ ORDER BY total_content DESC
 LIMIT 5;
 ```
 
+### 5. Identify the Longest Movie
+```SQL
+SELECT 	*
+FROM netflix
+WHERE typ = 'Movie'
+and 
+duration = (select max (duration) from netflix);
+```
+
+### 6. Find Content Added in the Last 5 Years
+```SQL
+SELECT *
+FROM netflix
+WHERE TO_DATE(date_added, 'Month DD, YYYY') >= CURRENT_DATE - INTERVAL '5 years';
+```
+
+### 7. Find All Movies/TV Shows by Director 'Rajiv Chilaka'
+```SQL
+SELECT *
+FROM (
+    SELECT 
+        *,
+        UNNEST(STRING_TO_ARRAY(director, ',')) AS D_Name
+    FROM netflix
+) AS S
+WHERE D_Name = 'Rajiv Chilaka';
+```
+
+### 8. List All TV Shows with More Than 3 Seasons
+```SQL
+SELECT *
+FROM netflix
+WHERE typ = 'TV Show'
+  AND SPLIT_PART(duration, ' ', 1)::INT > 3;
+```
+
+ ### 9. Count the Number of Content Items in Each Genre
+```SQL
+SELECT 
+    UNNEST(STRING_TO_ARRAY(listed_in, ',')) AS genre,
+    COUNT(*) AS total_content
+FROM netflix
+GROUP BY 1;
+```
+
+ ### 10.Find each year and the average numbers of content release in India on netflix.
+```SQL
+SELECT 
+    country,
+    release_year,
+    COUNT(show_id) AS total_release,
+    ROUND(
+        COUNT(show_id)::numeric /
+        (SELECT COUNT(show_id) FROM netflix WHERE country = 'India')::numeric * 100, 2
+    ) AS avg_release
+FROM netflix
+WHERE country = 'India'
+GROUP BY country, release_year
+ORDER BY avg_release DESC
+LIMIT 5;
+```
+
+### 11. List All Movies that are Documentaries
+```SQL
+SELECT * 
+FROM netflix
+WHERE listed_in LIKE '%Documentaries';
+```
+
+### 12. Find All Content Without a Director
+```SQL
+SELECT * 
+FROM netflix
+WHERE director IS NULL;
+```
+
+### 13. Find How Many Movies Actor 'Salman Khan' Appeared in the Last 10 Years
+```SQL
+SELECT * 
+FROM netflix
+WHERE casts LIKE '%Salman Khan%'
+  AND release_year > EXTRACT(YEAR FROM CURRENT_DATE) - 10;
+```
+
+### 14. Find the Top 10 Actors Who Have Appeared in the Highest Number of Movies Produced in India.
+```SQL
+SELECT 
+    UNNEST(STRING_TO_ARRAY(casts, ',')) AS actor,
+    COUNT(*)
+FROM netflix
+WHERE country = 'India'
+GROUP BY actor
+ORDER BY COUNT(*) DESC
+LIMIT 10;
+```
+
+### 15. Categorize Content Based on the Presence of 'Kill' and 'Violence' Keywords.
+```SQL
+SELECT 
+    category,
+    COUNT(*) AS content_count
+FROM (
+    SELECT 
+        CASE 
+            WHEN descriptions ILIKE '%kill%' OR descriptions ILIKE '%violence%' THEN 'Bad'
+            ELSE 'Good'
+        END AS category
+    FROM netflix
+) AS categorized_content
+GROUP BY category;
+```
+
+### 16.	Find all movies or TV shows releasedin the same year as a specific title (e.g., "Stranger Things").
+```SQL
+SELECT 
+    title, 
+    typ, 
+    release_year
+FROM Netflix
+WHERE release_year = (
+    SELECT release_year 
+    FROM Netflix 
+    WHERE title = 'Stranger Things'
+);
+```
 
 
 
