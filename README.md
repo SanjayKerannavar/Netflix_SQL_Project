@@ -1,4 +1,4 @@
-# Netflix_Movies_Shows_Data_Analysis.
+# Netflix_Movies_Shows_Data_Analysis
 ![Netflix_Logo](https://github.com/SanjayKerannavar/Netflix_SQL_Project/blob/a4674672fbd97aa3cce7a7d03a0f7161051c46ad/Image.png)
 
 ## Overview 
